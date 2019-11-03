@@ -6,6 +6,7 @@ TAnswer::TAnswer() {
 
 void TAnswer::Draw(int x, int y, QWidget *parent) const {
     int inputX = x;
+    double h = static_cast<double>(Height_) / static_cast<double>(Plane.size());
     for (size_t i = 0; i < Plane.size(); i++) {
         int sum = 0;
         for (size_t j = 0; j < Plane[i].size(); j++) {
@@ -17,20 +18,29 @@ void TAnswer::Draw(int x, int y, QWidget *parent) const {
         if (sum != Length) {
             DrowRect(x, y, Length - sum, Qt::red, parent);
         }
-        y += Height_;
+        y += h;
         x = inputX;
     }
 }
 
 void TAnswer::DrowRect(int x, int y, int length, QColor color, QWidget *parent) const {
     double w = static_cast<double>(length) / static_cast<double>(Length) * static_cast<double>(Width_);
-    QRectF rect(x, y, w, Height_);
+    double h = static_cast<double>(Height_) / static_cast<double>(Plane.size());
+    QRectF rect(x, y, w, h);
     auto* painter = new QPainter(parent);
     painter->setBrush(color);
     painter->drawRect(rect);
 
-    rect.setX(x + w / 2.0);
-    rect.setY(y + Height_ / 6.0);
+    rect.setX(x + w / 2.0); // text position
+    rect.setY(y + h / 9.0);
     painter->drawText(rect, QString::number(length));
     delete painter;
+}
+
+int TAnswer::GetHeight() const {
+    return Height_;
+}
+
+int TAnswer::GetWidth() const {
+    return Width_;
 }

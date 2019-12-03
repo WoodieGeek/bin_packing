@@ -7,6 +7,7 @@
 #include "solvers/first_fit.h"
 #include "solvers/best_fit.h"
 #include "solvers/proposed_algorithm.h"
+#include "solvers/genetic_algorithm.h"
 
 #include "tests_generation.h"
 
@@ -33,11 +34,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     Table_ = new QTableWidget(this);
     connect(Table_, SIGNAL(cellClicked(int,int)), this, SLOT(TableChanged(int,int)));
-    SolveName_ = {"Next-Fit", "First-Fit", "Best-Fit", "Proposed"};
-    auto solvers = std::tuple<TNextFit, TFirstFit, TBestFit, TProposed>();
+    SolveName_ = {"Next-Fit", "First-Fit", "Best-Fit", "Proposed", "Genetic"};
+    auto solvers = std::tuple<TNextFit, TFirstFit, TBestFit, TProposed, TGenetic>();
 
-    int testNumber = 5;
-    CreateTests(testNumber);
+    int testNumber = 1;
+    //CreateTests(testNumber);
     LoadProblems(testNumber);
     for (const auto& problem : Problems_) {
         std::vector<TAnswer> currentAnswers;

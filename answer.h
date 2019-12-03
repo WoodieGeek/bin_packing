@@ -18,8 +18,8 @@ public:
 private:
     void DrowRect(int x, int y, int length, QColor color, QWidget* parent) const;
 private:
-    const int Height_ = 150;
-    const int Width_ = 1400;
+    const int Height_ = 100;
+    const int Width_ = 1000;
 };
 
 #endif // ANSWER_H

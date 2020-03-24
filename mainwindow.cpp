@@ -8,13 +8,14 @@
 #include "solvers/best_fit.h"
 #include "solvers/proposed_algorithm.h"
 #include "solvers/genetic_algorithm.h"
+#include "solvers/ffd.h"
 
 #include "tests_generation.h"
 
 namespace {
 
 void CreateTests(int testNumber) {
-    for (size_t i = 4, test = 0; i < 16; i++, test++) {
+    for (size_t i = 2, test = 0; i < 16; i++, test++) {
         size_t elements = (1 << i);
         auto problem = TTestGeneretion::GenerateProblem(elements);
         std::string fname = "tests/test_" + std::to_string(test);
@@ -34,12 +35,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     Table_ = new QTableWidget(this);
     connect(Table_, SIGNAL(cellClicked(int,int)), this, SLOT(TableChanged(int,int)));
-    SolveName_ = {"Next-Fit", "First-Fit", "Best-Fit", "Proposed", "Genetic"};
-    auto solvers = std::tuple<TNextFit, TFirstFit, TBestFit, TProposed, TGenetic>();
+    SolveName_ = {"Next-Fit", "First-Fit", "Best-Fit", "FFD", "Genetic"};
+    auto solvers = std::tuple<TNextFit, TFirstFit, TBestFit, TFFD, TGenetic>();
 
     int testNumber = 1;
     //CreateTests(testNumber);
     LoadProblems(testNumber);
+    qDebug() << Problems_.size()  << "!";
     for (const auto& problem : Problems_) {
         std::vector<TAnswer> currentAnswers;
         auto add2Answers = [&](auto&& x) {
@@ -80,7 +82,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
 }
 
 void MainWindow::LoadProblems(size_t testNumber) {
-    Problems_.empty();
+    Problems_.clear();
     for (size_t i = 0; i < testNumber; ++i) {
         std::fstream fin;
         fin.open("tests/test_" + std::to_string(i));

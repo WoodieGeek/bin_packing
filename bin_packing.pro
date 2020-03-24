@@ -42,7 +42,8 @@ HEADERS += \
     solvers/best_fit.h \
     solvers/proposed_algorithm.h \
     tests_generation.h \
-    solvers/genetic_algorithm.h
+    solvers/genetic_algorithm.h \
+    solvers/ffd.h
 
 FORMS += \
         mainwindow.ui
